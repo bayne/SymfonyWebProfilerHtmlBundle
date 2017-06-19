@@ -1,6 +1,11 @@
 {
     "name": "bayne/symfony-web-profiler-html-bundle",
     "description": "Outputs the Symfony Web Profiler to HTML",
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    },
     "authors": [
         {
             "name": "Brian Payne",
