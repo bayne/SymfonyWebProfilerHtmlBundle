@@ -1,0 +1,11 @@
+{
+    "name": "bayne/symfony-web-profiler-html-bundle",
+    "description": "Outputs the Symfony Web Profiler to HTML",
+    "authors": [
+        {
+            "name": "Brian Payne",
+            "email": "bpayne@uci.edu"
+        }
+    ],
+    "require": {}
+}
