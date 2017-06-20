@@ -1,7 +1,9 @@
 {% extends '@WebProfiler/Profiler/base.html.twig' %}
 
 {% block body %}
+    {% if static is defined and static %}
     {{ include('@WebProfiler/Profiler/header.html.twig', with_context = false) }}
+    {% endif %}
 
     <div id="summary">
         {% block summary %}
