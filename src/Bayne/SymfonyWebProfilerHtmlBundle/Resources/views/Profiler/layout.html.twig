@@ -84,43 +84,49 @@
 
     <div id="content" class="container">
         <div id="main">
-            {#<div id="sidebar">#}
-                {#<div id="sidebar-shortcuts">#}
-                    {#<div class="shortcuts">#}
-                        {#<a href="#" id="sidebarShortcutsMenu" class="visible-small">#}
-                            {#<span class="icon">{{ include('@WebProfiler/Icon/menu.svg') }}</span>#}
-                        {#</a>#}
+            <div id="sidebar">
+                <div id="sidebar-shortcuts">
+                    <div class="shortcuts">
+                        <a href="#" id="sidebarShortcutsMenu" class="visible-small">
+                            <span class="icon">{{ include('@WebProfiler/Icon/menu.svg') }}</span>
+                        </a>
 
-                        {#<a class="btn btn-sm" href="{{ path('_profiler_search', { limit: 10 }) }}">Last 10</a>#}
-                        {#<a class="btn btn-sm" href="{{ path('_profiler', { token: 'latest' }|merge(request.query.all)) }}">Latest</a>#}
+                        {% if static is not defined or not static %}
+                        <a class="btn btn-sm" href="{{ path('_profiler_search', { limit: 10 }) }}">Last 10</a>
+                        <a class="btn btn-sm" href="{{ path('_profiler', { token: 'latest' }|merge(request.query.all)) }}">Latest</a>
 
-                        {#<a class="sf-toggle btn btn-sm" data-toggle-selector="#sidebar-search" {% if tokens is defined or about is defined %}data-toggle-initial="display"{% endif %}>#}
-                            {#{{ include('@WebProfiler/Icon/search.svg') }} <span class="hidden-small">Search</span>#}
-                        {#</a>#}
+                        <a class="sf-toggle btn btn-sm" data-toggle-selector="#sidebar-search" {% if tokens is defined or about is defined %}data-toggle-initial="display"{% endif %}>
+                            {{ include('@WebProfiler/Icon/search.svg') }} <span class="hidden-small">Search</span>
+                        </a>
 
-                        {#{{ render(path('_profiler_search_bar', request.query.all)) }}#}
-                    {#</div>#}
-                {#</div>#}
+                        {{ render(path('_profiler_search_bar', request.query.all)) }}
+                        {% endif %}
+                    </div>
+                </div>
 
-                {#{% if templates is defined %}#}
-                    {#<ul id="menu-profiler">#}
-                        {#{% for name, template in templates %}#}
-                            {#{% set menu -%}#}
-                                {#{%- if block('menu', template) is defined -%}#}
-                                    {#{% with { collector: profile.getcollector(name), profiler_markup_version: profiler_markup_version } %}#}
-                                        {#{{- block('menu', template) -}}#}
-                                    {#{% endwith %}#}
-                                {#{%- endif -%}#}
-                            {#{%- endset %}#}
-                            {#{% if menu is not empty %}#}
-                                {#<li class="{{ name }} {{ name == panel ? 'selected' : '' }}">#}
-                                    {#<a href="{{ path('_profiler', { token: token, panel: name }) }}">{{ menu|raw }}</a>#}
-                                {#</li>#}
-                            {#{% endif %}#}
-                        {#{% endfor %}#}
-                    {#</ul>#}
-                {#{% endif %}#}
-            {#</div>#}
+                {% if templates is defined %}
+                    <ul id="menu-profiler">
+                        {% for name, template in templates %}
+                            {% set menu -%}
+                                {%- if block('menu', template) is defined -%}
+                                    {% with { collector: profile.getcollector(name), profiler_markup_version: profiler_markup_version } %}
+                                        {{- block('menu', template) -}}
+                                    {% endwith %}
+                                {%- endif -%}
+                            {%- endset %}
+                            {% if menu is not empty %}
+                                <li class="{{ name }} {{ name == panel ? 'selected' : '' }}">
+                                    {% if static is defined and static %}
+                                    <a href="{{ name~'.html' }}">{{ menu|raw }}</a>
+                                    {% else %}
+                                    <a href="{{ path('_profiler', { token: token, panel: name }) }}">{{ menu|raw }}</a>
+                                    {% endif %}
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
 
             <div id="collector-wrapper">
                 <div id="collector-content">
@@ -131,11 +137,13 @@
         </div>
     </div>
     <script>
-//        (function () {
-//            Sfjs.addEventListener(document.getElementById('sidebarShortcutsMenu'), 'click', function (event) {
-//                event.preventDefault();
-//                Sfjs.toggleClass(document.getElementById('sidebar'), 'expanded');
-//            })
-//        }())
+        {% if static is not defined or not static %}
+        (function () {
+            Sfjs.addEventListener(document.getElementById('sidebarShortcutsMenu'), 'click', function (event) {
+                event.preventDefault();
+                Sfjs.toggleClass(document.getElementById('sidebar'), 'expanded');
+            })
+        }());
+        {% endif %}
     </script>
 {% endblock %}

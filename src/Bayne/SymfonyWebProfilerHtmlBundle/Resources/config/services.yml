@@ -1,0 +1,7 @@
+services:
+    bayne.symfony_web_profiler_html_bundle.outputter:
+        class: Bayne\SymfonyWebProfilerHtmlBundle\Outputter
+        arguments:
+            - '@profiler'
+            - '@twig'
+            - '%data_collector.templates%'
