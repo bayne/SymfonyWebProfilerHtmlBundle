@@ -49,6 +49,9 @@ class Outputter
     {
         $request = new Request();
         $profile = $this->profiler->loadProfile($token);
+        if (null === $profile) {
+            return;
+        }
         $page = 'home';
         $templates = array_filter($this->templates, function ($template) {
             return $template[0] !== 'router';
