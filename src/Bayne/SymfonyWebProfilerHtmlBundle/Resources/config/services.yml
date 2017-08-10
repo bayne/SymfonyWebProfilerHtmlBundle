@@ -1,4 +1,8 @@
 services:
+    bayne.symfony_web_profiler_html_bundle.debug_token_cookie:
+        class: Bayne\SymfonyWebProfilerHtmlBundle\DebugTokenCookieSubscriber
+        tags:
+            - { name: 'kernel.event_subscriber' }
     bayne.symfony_web_profiler_html_bundle.outputter:
         class: Bayne\SymfonyWebProfilerHtmlBundle\Outputter
         arguments:

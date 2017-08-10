@@ -53,9 +53,12 @@ class Outputter
             return;
         }
         $page = 'home';
-        $templates = array_filter($this->templates, function ($template) {
-            return $template[0] !== 'router';
-        });
+        $templates = array_filter(
+            $this->templates,
+            function ($template) {
+                return $template[0] !== 'router' && $template[0] !== 'form';
+            }
+        );
         $panels = array_map(function ($panel) {
             return $panel[0];
         }, $templates);
