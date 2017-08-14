@@ -9,4 +9,8 @@
 </span>
 {% endblock %}
 
-{% block panel %}{% endblock %}
+{% block panel %}
+    {% if static is not defined or not static %}
+    {{ render(path('_profiler_router', { token: token })) }}
+    {% endif %}
+{% endblock %}

@@ -19,7 +19,6 @@ class DumpProfilerCommand extends ContainerAwareCommand
         ;
     }
 
-
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $token = $input->getArgument('token');
