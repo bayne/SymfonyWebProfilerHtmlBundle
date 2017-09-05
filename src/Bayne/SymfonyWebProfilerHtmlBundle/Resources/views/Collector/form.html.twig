@@ -9,8 +9,8 @@
             {% set icon %}
                 {{ include('@WebProfiler/Icon/form.svg') }}
                 <span class="sf-toolbar-value">
-                    {{ collector.data.nb_errors ?: collector.data.forms|length }}
-                </span>
+                {{ collector.data.nb_errors ?: collector.data.forms|length }}
+            </span>
             {% endset %}
 
             {% set text %}
@@ -550,7 +550,7 @@
                         <th class="font-normal" scope="row">Model Format</th>
                         <td>
                             {% if data.default_data.model is defined %}
-                                {{ profiler_dump(data.default_data.seek('model')) }}
+                                {{ profiler_dump(data.default_data.model) }}
                             {% else %}
                                 <em class="font-normal text-muted">same as normalized format</em>
                             {% endif %}
@@ -558,13 +558,13 @@
                     </tr>
                     <tr>
                         <th class="font-normal" scope="row">Normalized Format</th>
-                        <td>{{ profiler_dump(data.default_data.seek('norm')) }}</td>
+                        <td>{{ profiler_dump(data.default_data.norm) }}</td>
                     </tr>
                     <tr>
                         <th class="font-normal" scope="row">View Format</th>
                         <td>
                             {% if data.default_data.view is defined %}
-                                {{ profiler_dump(data.default_data.seek('view')) }}
+                                {{ profiler_dump(data.default_data.view) }}
                             {% else %}
                                 <em class="font-normal text-muted">same as normalized format</em>
                             {% endif %}
@@ -596,7 +596,7 @@
                             <th class="font-normal" scope="row">View Format</th>
                             <td>
                                 {% if data.submitted_data.view is defined %}
-                                    {{ profiler_dump(data.submitted_data.seek('view')) }}
+                                    {{ profiler_dump(data.submitted_data.view) }}
                                 {% else %}
                                     <em class="font-normal text-muted">same as normalized format</em>
                                 {% endif %}
@@ -604,13 +604,13 @@
                         </tr>
                         <tr>
                             <th class="font-normal" scope="row">Normalized Format</th>
-                            <td>{{ profiler_dump(data.submitted_data.seek('norm')) }}</td>
+                            <td>{{ profiler_dump(data.submitted_data.norm) }}</td>
                         </tr>
                         <tr>
                             <th class="font-normal" scope="row">Model Format</th>
                             <td>
                                 {% if data.submitted_data.model is defined %}
-                                    {{ profiler_dump(data.submitted_data.seek('model')) }}
+                                    {{ profiler_dump(data.submitted_data.model) }}
                                 {% else %}
                                     <em class="font-normal text-muted">same as normalized format</em>
                                 {% endif %}
@@ -649,13 +649,10 @@
                                 <th>{{ option }}</th>
                                 <td>{{ profiler_dump(value) }}</td>
                                 <td>
-                                    {# values can be stubs #}
-                                    {% set option_value = value.value|default(value) %}
-                                    {% set resolved_option_value = data.resolved_options[option].value|default(data.resolved_options[option]) %}
-                                    {% if resolved_option_value == option_value %}
+                                    {% if data.resolved_options[option] == value %}
                                         <em class="font-normal text-muted">same as passed value</em>
                                     {% else %}
-                                        {{ profiler_dump(data.resolved_options.seek(option)) }}
+                                        {{ profiler_dump(data.resolved_options[option]) }}
                                     {% endif %}
                                 </td>
                             </tr>
@@ -729,4 +726,3 @@
         {{ tree.form_tree_details(childName, childData, forms_by_hash) }}
     {% endfor %}
 {% endmacro %}
-
